@@ -524,11 +524,11 @@
   function fmt(ts){ try{ return new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'}); }catch(e){ return ''; } }
   function letterHTML(m){
     var d=document.createElement('div'); d.className='letter';
-    var fl=document.createElement('div'); fl.className='flower'; fl.textContent='â'; d.appendChild(fl);
+    var fl=document.createElement('div'); fl.className='flower'; fl.textContent='❀'; d.appendChild(fl);
     var s=document.createElement('div'); s.className='salut'; s.textContent='Dear Mohamed & Eman,'; d.appendChild(s);
     var t=document.createElement('div'); t.className='ltext'; t.setAttribute('dir','auto'); t.textContent=m.text; d.appendChild(t);
-    var md=document.createElement('div'); md.className='mini-div'; md.innerHTML='<span>â¡</span>'; d.appendChild(md);
-    var sg=document.createElement('div'); sg.className='lsign'; sg.textContent='â '+(m.name||'Guest'); d.appendChild(sg);
+    var md=document.createElement('div'); md.className='mini-div'; md.innerHTML='<span>♡</span>'; d.appendChild(md);
+    var sg=document.createElement('div'); sg.className='lsign'; sg.textContent='— '+(m.name||'Guest'); d.appendChild(sg);
     var dt=document.createElement('div'); dt.className='ldate'; dt.textContent=fmt(m.ts); d.appendChild(dt);
     return d;
   }
@@ -537,11 +537,11 @@
     if(idx<messages.length){ el.appendChild(letterHTML(messages[idx])); }
     else if(idx===0 && messages.length===0){
       var e=document.createElement('div'); e.className='msg-empty';
-      e.innerHTML='<span class="bfl">â</span>Be the first to sign our book â¡'; el.appendChild(e);
+      e.innerHTML='<span class="bfl">❀</span>Be the first to sign our book ♡'; el.appendChild(e);
     } else {
       el.classList.add('blank');
       var b=document.createElement('div'); b.className='letter';
-      b.innerHTML='<div class="bfl">â</div>'; el.appendChild(b);
+      b.innerHTML='<div class="bfl">❀</div>'; el.appendChild(b);
     }
   }
   function renderPages(){
@@ -599,7 +599,7 @@
   function postToSheet(payload){ if(!SCRIPT_URL)return; try{ fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}); }catch(e){} }
   function logVisit(){ postToSheet({action:'visit',vid:visitorId(),ua:navigator.userAgent,ref:document.referrer||'',ts:Date.now()}); }
   function loadMessages(){
-    if(!SCRIPT_URL){ messages=[]; previewBanner.hidden=false; noteEl.textContent='Preview only â connect your Google Sheet to save wishes.'; if(spread.classList.contains('on'))renderPages(); return; }
+    if(!SCRIPT_URL){ messages=[]; previewBanner.hidden=false; noteEl.textContent='Preview only — connect your Google Sheet to save wishes.'; if(spread.classList.contains('on'))renderPages(); return; }
     fetchJSON(SCRIPT_URL+'?action=list').then(function(d){
       messages=((d&&d.messages)||[]).map(function(m){return {name:m.name,text:m.text,ts:(+m.ts)||Date.parse(m.date)||Date.now()};});
       liveReady=true; previewBanner.hidden=true;
@@ -614,11 +614,11 @@
     if(SCRIPT_URL){
       postToSheet({action:'message',name:entry.name,text:entry.text,vid:visitorId(),ts:entry.ts});
       messages.unshift(entry); curPage=0; renderPages();
-      noteEl.textContent='Thank you â¡ your wish is saved.';
+      noteEl.textContent='Thank you ♡ your wish is saved.';
       setTimeout(loadMessages,2500);
     } else {
       messages.unshift(entry); curPage=0; renderPages();
-      noteEl.textContent='Added â¡ (connect your Sheet to save for everyone).';
+      noteEl.textContent='Added ♡ (connect your Sheet to save for everyone).';
     }
     nameEl.value=''; textEl.value='';
     setTimeout(function(){ writePanel.classList.remove('on'); },1000);
