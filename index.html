@@ -529,7 +529,6 @@
     var t=document.createElement('div'); t.className='ltext'; t.setAttribute('dir','auto'); t.textContent=m.text; d.appendChild(t);
     var md=document.createElement('div'); md.className='mini-div'; md.innerHTML='<span>♡</span>'; d.appendChild(md);
     var sg=document.createElement('div'); sg.className='lsign'; sg.textContent='— '+(m.name||'Guest'); d.appendChild(sg);
-    var dt=document.createElement('div'); dt.className='ldate'; dt.textContent=fmt(m.ts); d.appendChild(dt);
     return d;
   }
   function fillPage(el,idx){
