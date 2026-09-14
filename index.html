@@ -185,6 +185,12 @@
   .page.blank .bfl{color:var(--gold);font-size:1.6rem;opacity:.6}
   .msg-empty{color:var(--ink-soft);font-style:italic;font-size:1.05rem}
   .msg-empty .bfl{display:block;color:var(--gold);font-size:1.8rem;margin-bottom:8px}
+  .msg-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 0;color:var(--ink-soft);font-style:italic;font-size:1.05rem}
+  .msg-loading .dots{display:flex;gap:6px}
+  .msg-loading .dots span{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.3;animation:dotPulse 1.2s ease-in-out infinite}
+  .msg-loading .dots span:nth-child(2){animation-delay:.2s}
+  .msg-loading .dots span:nth-child(3){animation-delay:.4s}
+  @keyframes dotPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
 
   .book-controls{display:none;flex-direction:column;align-items:center;gap:14px;margin-top:18px}
   .book-controls.on{display:flex}
@@ -534,7 +540,10 @@
   function fillPage(el,idx){
     el.innerHTML=''; el.classList.remove('blank');
     if(idx<messages.length){ el.appendChild(letterHTML(messages[idx])); }
-    else if(idx===0 && messages.length===0){
+    else if(idx===0 && messages.length===0 && !liveReady){
+      var ld=document.createElement('div'); ld.className='msg-loading';
+      ld.innerHTML='<div class="dots"><span></span><span></span><span></span></div>Loading wishes…'; el.appendChild(ld);
+    } else if(idx===0 && messages.length===0){
       var e=document.createElement('div'); e.className='msg-empty';
       e.innerHTML='<span class="bfl">❀</span>Be the first to sign our book ♡'; el.appendChild(e);
     } else {
