@@ -608,11 +608,13 @@
   function logVisit(){ postToSheet({action:'visit',vid:visitorId(),ua:navigator.userAgent,ref:document.referrer||'',ts:Date.now()}); }
   function loadMessages(){
     if(!SCRIPT_URL){ messages=[]; previewBanner.hidden=false; noteEl.textContent='Preview only — connect your Google Sheet to save wishes.'; if(spread.classList.contains('on'))renderPages(); return; }
+    try{ var cached=localStorage.getItem('mne_msgs'); if(cached){ messages=JSON.parse(cached); liveReady=true; if(spread.classList.contains('on'))renderPages(); } }catch(e){}
     fetchJSON(SCRIPT_URL+'?action=list').then(function(d){
       messages=((d&&d.messages)||[]).map(function(m){return {name:m.name,text:m.text,ts:(+m.ts)||Date.parse(m.date)||Date.now()};});
       liveReady=true; previewBanner.hidden=true;
+      try{ localStorage.setItem('mne_msgs',JSON.stringify(messages)); }catch(e){}
       if(spread.classList.contains('on'))renderPages();
-    }).catch(function(){ if(spread.classList.contains('on'))renderPages(); });
+    }).catch(function(){ liveReady=true; if(spread.classList.contains('on'))renderPages(); });
   }
   submitBtn.addEventListener('click',function(){
     var nm=(nameEl.value||'').trim(), tx=(textEl.value||'').trim();
